@@ -143,7 +143,8 @@ def load_cameras(path: str, device: str) -> list[Camera]:
     Load camera data saved by preprocess.py.
     Expected dict keys per camera: image, R, T, fx, fy, cx, cy, W, H.
     """
-    data: list[dict] = torch.load(path, map_location=device)
+    # Adicionado weights_only=False para permitir que o PyTorch 2.6 leia os dicionários/matrizes do NumPy
+    data: list[dict] = torch.load(path, map_location=device, weights_only=False)
     cameras = []
     for d in data:
         cameras.append(Camera(
